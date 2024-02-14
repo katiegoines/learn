@@ -1,5 +1,4 @@
 import { withSSRContext } from "aws-amplify";
-import { serializeModel, deserializeModel } from "@aws-amplify/datastore/ssr";
 import { CoursesRouteLayout } from "../../../components/CoursesRouteLayout";
 import { Contributor, Course, Lesson, Tag } from "../../../models";
 import { capitalizeEnum, createCourseTitleUri } from "../../../utils";

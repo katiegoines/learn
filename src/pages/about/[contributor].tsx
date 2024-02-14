@@ -8,8 +8,7 @@ import {
   useBreakpointValue,
   Heading,
 } from "@aws-amplify/ui-react";
-import { withSSRContext } from "aws-amplify";
-import { serializeModel, deserializeModel } from "@aws-amplify/datastore/ssr";
+// import { withSSRContext } from "aws-amplify";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { Contributor, ContributorCourse } from "../../models";

@@ -51,11 +51,13 @@ export function configureAdobeAnalytics(): void {
 
 function trackCustomEvent(opt: CustomEventOptions): void {
   try {
-    window.AWSMA.ready(() => {
-      document.dispatchEvent(
-        new CustomEvent(window.AWSMA.TRIGGER_EVENT, { detail: opt })
-      );
-    });
+    if (typeof window != "undefined") {
+      window.AWSMA.ready(() => {
+        document.dispatchEvent(
+          new CustomEvent(window.AWSMA.TRIGGER_EVENT, { detail: opt })
+        );
+      });
+    }
   } catch (error) {
     // don't want to error for analytics events
   }

@@ -1,6 +1,7 @@
-import { Amplify, withSSRContext } from "aws-amplify";
+import { Amplify } from "aws-amplify";
+import { DataStore } from 'aws-amplify/datastore';
 import { GetStaticPropsContext } from "next";
-import awsmobile from "../aws-exports";
+import amplifyconfig from '../amplifyconfiguration.json';
 import {
   Contributor,
   ContributorCourse,
@@ -12,7 +13,7 @@ import {
 import { CardLayoutData, Context, CoursePageParams } from "../types/models";
 
 export function configureAmplify() {
-  Amplify.configure({ ...awsmobile, ssr: true });
+  Amplify.configure({ ...amplifyconfig });
 }
 
 configureAmplify();
@@ -20,10 +21,10 @@ configureAmplify();
 export async function getFeaturedCourseData(
   context: GetStaticPropsContext & Context
 ): Promise<{ course: Course; tags: Tag[] } | null> {
-  const { DataStore } = withSSRContext(context);
+  // const { DataStore } = withSSRContext(context);
 
   const courses: Course[] = await DataStore.query(Course, (c: any) =>
-    c
+    c.published("eq", true)
   );
 
   if (courses.length > 0) {
@@ -46,7 +47,6 @@ export async function getCourseTags(
   context: GetStaticPropsContext & Context,
   courseId: string
 ): Promise<Tag[]> {
-  const { DataStore } = withSSRContext(context);
 
   const courseTags: CourseTag[] = await DataStore.query(CourseTag);
 

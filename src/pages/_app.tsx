@@ -21,11 +21,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     const handleRouteChangeComplete = () => {
       // Work around for firefox not always scrolling to the top
-      window.scroll({
-        top: 1,
-        left: 0,
-        behavior: "smooth",
-      });
+      if (typeof window != "undefined") {
+        window.scroll({
+          top: 1,
+          left: 0,
+          behavior: "smooth",
+        });
+      }
     };
 
     router.events.on("routeChangeStart", handleRouteChange);

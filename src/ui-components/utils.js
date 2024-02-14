@@ -6,7 +6,9 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Auth, DataStore, Hub } from "aws-amplify";
+import { fetchUserAttributes, signOut } from "aws-amplify/auth";
+import { DataStore } from "aws-amplify/datastore";
+import { Hub } from "aws-amplify/utils";
 export const UI_CHANNEL = "ui";
 export const UI_EVENT_TYPE_ACTIONS = "actions";
 export const CATEGORY_AUTH = "auth";
@@ -77,20 +79,29 @@ export const useStateMutationAction = (initialState) => {
   return [state, setNewState];
 };
 export const useNavigateAction = (options) => {
+
+if(typeof window != "undefined") {}
+
   const { type, url, anchor, target } = options;
   const run = React.useMemo(() => {
     switch (type) {
       case "url":
         return () => {
-          window.open(url, target || "_self", "noopener noreferrer");
+          if (typeof window != "undefined") {
+            window.open(url, target || "_self", "noopener noreferrer");
+          }
         };
       case "anchor":
         return () => {
-          window.location.hash = anchor ?? "";
+          if (typeof window != "undefined") {
+            window.location.hash = anchor ?? "";
+          }
         };
       case "reload":
         return () => {
-          window.location.reload();
+          if (typeof window != "undefined") {
+            window.location.reload();
+          }
         };
       default:
         return () => {
@@ -479,7 +490,7 @@ export const useAuthSignOutAction = (options) => async () => {
       EVENT_ACTION_AUTH_SIGNOUT,
       AMPLIFY_SYMBOL
     );
-    await Auth.signOut(options);
+    await signOut(options);
     Hub.dispatch(
       UI_CHANNEL,
       {
@@ -500,6 +511,60 @@ export const useAuthSignOutAction = (options) => async () => {
       AMPLIFY_SYMBOL
     );
   }
+};
+export const useAuth = () => {
+  const [result, setResult] = React.useState({
+    error: undefined,
+    isLoading: true,
+    user: undefined,
+  });
+  const fetchCurrentUserAttributes = React.useCallback(async () => {
+    setResult((prevResult) => ({ ...prevResult, isLoading: true }));
+    try {
+      const attributes = await fetchUserAttributes();
+      setResult({ user: { attributes }, isLoading: false });
+    } catch (error) {
+      setResult({ error, isLoading: false });
+    }
+  }, []);
+  const handleAuth = React.useCallback(
+    ({ payload }) => {
+      switch (payload.event) {
+        case "signedIn":
+        case "signUp":
+        case "tokenRefresh":
+        case "autoSignIn": {
+          fetchCurrentUserAttributes();
+          break;
+        }
+        case "signedOut": {
+          setResult({ user: undefined, isLoading: false });
+          break;
+        }
+        case "tokenRefresh_failure":
+        case "signIn_failure": {
+          setResult({ error: payload.data, isLoading: false });
+          break;
+        }
+        case "autoSignIn_failure": {
+          setResult({ error: new Error(payload.message), isLoading: false });
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    },
+    [fetchCurrentUserAttributes]
+  );
+  React.useEffect(() => {
+    const unsubscribe = Hub.listen("auth", handleAuth, "useAuth");
+    fetchCurrentUserAttributes();
+    return unsubscribe;
+  }, [handleAuth, fetchCurrentUserAttributes]);
+  return {
+    ...result,
+  };
 };
 export const validateField = (value, validations) => {
   for (const validation of validations) {
@@ -793,10 +858,14 @@ export const fetchByPath = (input, path, accumlator = []) => {
   return accumlator[0];
 };
 export const processFile = async ({ file }) => {
+  if (typeof window != "undefined") {
+    const w = window;
+  }
   const fileExtension = file.name.split(".").pop();
+  if (typeof window != "undefined") {
   return file
     .arrayBuffer()
-    .then((filebuffer) => window.crypto.subtle.digest("SHA-1", filebuffer))
+    .then((filebuffer) => w.crypto.subtle.digest("SHA-1", filebuffer))
     .then((hashBuffer) => {
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray
@@ -804,4 +873,5 @@ export const processFile = async ({ file }) => {
         .join("");
       return { file, key: `${hashHex}.${fileExtension}` };
     });
+  }
 };

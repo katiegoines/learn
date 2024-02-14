@@ -1,5 +1,4 @@
 import { withSSRContext } from "aws-amplify";
-import { serializeModel, deserializeModel } from "@aws-amplify/datastore/ssr";
 import { LessonLayout } from "../../../../components/LessonLayout";
 import { Contributor, Course, Lesson } from "../../../../models";
 import { YoutubeEmbed } from "../../../../components/YoutubeEmbed";

@@ -10,7 +10,6 @@ import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import { ActionLayout } from "../../components/ActionLayout";
 import { ContributorCollection } from "../../components/ContributorCollection";
 import ExternalIconCustom from "../../ui-components/ExternalIconCustom";
-import { serializeModel, deserializeModel } from "@aws-amplify/datastore/ssr";
 import { trackExternalLink } from "../../utils/track";
 import { Contributor } from "../../models";
 import { Context, MetaInfo } from "../../types/models";
@@ -110,11 +109,13 @@ export default function AboutPage(data: any) {
               width="max-content"
               onClick={() => {
                 trackExternalLink("https://discord.gg/amplify");
-                window.open(
-                  "https://discord.gg/amplify",
-                  "_blank",
-                  "noopener,noreferrer"
-                );
+                if (typeof window != "undefined") {
+                  window.open(
+                    "https://discord.gg/amplify",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }
               }}
             >
               Chat on Discord

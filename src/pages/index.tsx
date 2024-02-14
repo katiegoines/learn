@@ -2,7 +2,6 @@ import { Button, View, Heading, Flex } from "@aws-amplify/ui-react";
 import { ActionLayout } from "../components/ActionLayout";
 import ExternalIconCustom from "../ui-components/ExternalIconCustom";
 import { Course, Tag } from "../models";
-import { serializeModel, deserializeModel } from "@aws-amplify/datastore/ssr";
 import { trackExternalLink } from "../utils/track";
 import { HeroCourse } from "../components/HeroCourse";
 import { CardLayoutCollection } from "../components/CardLayoutCollection";
@@ -89,11 +88,13 @@ export default function Home(data: {
             width="max-content"
             onClick={() => {
               trackExternalLink("https://docs.amplify.aws/start/");
-              window.open(
-                "https://docs.amplify.aws/start/",
-                "_blank",
-                "noopener,noreferrer"
-              );
+              if (typeof window != "undefined") {
+                window.open(
+                  "https://docs.amplify.aws/start/",
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+              }
             }}
           >
             Try Amplify now

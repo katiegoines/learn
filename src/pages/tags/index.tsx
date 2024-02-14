@@ -2,7 +2,6 @@ import { Grid, Heading, View } from "@aws-amplify/ui-react";
 import { withSSRContext } from "aws-amplify";
 import { Tag } from "../../models";
 import { TagButton } from "../../components/TagButton";
-import { serializeModel, deserializeModel } from "@aws-amplify/datastore/ssr";
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import { Context, MetaInfo } from "../../types/models";
 import { configureAmplify } from "../../lib/getData";
