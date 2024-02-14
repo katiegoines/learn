@@ -23,7 +23,7 @@ export async function getFeaturedCourseData(
   const { DataStore } = withSSRContext(context);
 
   const courses: Course[] = await DataStore.query(Course, (c: any) =>
-    c.published("eq", true)
+    c
   );
 
   if (courses.length > 0) {
