@@ -1,6 +1,6 @@
 import { default as LearnFooterMobileCustom } from "../../ui-components/LearnFooterMobileCustom";
 import { default as LearnFooterCustom } from "../../ui-components/LearnFooterCustom";
-import { SocialMediaButton } from "../SocialMediaButton";
+// import { SocialMediaButton } from "../SocialMediaButton";
 import { SocialMediaPlatform } from "../../models";
 import { createGithubIssueLink } from "../../utils";
 import { View } from "@aws-amplify/ui-react";
@@ -13,44 +13,44 @@ export function LearnFooter({ isMobile }: { isMobile: boolean }) {
 
   const iconSize = isMobile ? "26px" : "38px";
 
-  const socialMediaButtons = [
-    <SocialMediaButton
-      key={1}
-      platform={SocialMediaPlatform.GITHUB}
-      url="https://github.com/aws-amplify/"
-      iconAriaLabel="Github Repo for Amplify Learn"
-      showBorder={false}
-      iconWidth={iconSize}
-      iconHeight={iconSize}
-    />,
-    <SocialMediaButton
-      key={2}
-      platform={SocialMediaPlatform.TWITTER}
-      url="https://twitter.com/AWSAmplify"
-      iconAriaLabel="AWS Amplify Twitter account"
-      showBorder={false}
-      iconWidth={iconSize}
-      iconHeight={iconSize}
-    />,
-    <SocialMediaButton
-      key={3}
-      platform={SocialMediaPlatform.YOUTUBE}
-      url="https://www.youtube.com/c/amazonwebservices"
-      iconAriaLabel="AWS Amplify Youtube channel"
-      showBorder={false}
-      iconWidth={iconSize}
-      iconHeight={iconSize}
-    />,
-    <SocialMediaButton
-      key={4}
-      platform={SocialMediaPlatform.DISCORD}
-      url="https://discord.gg/amplify"
-      iconAriaLabel="AWS Amplify Discord"
-      showBorder={false}
-      iconWidth={iconSize}
-      iconHeight={iconSize}
-    />,
-  ];
+  // const socialMediaButtons = [
+    // <SocialMediaButton
+    //   key={1}
+    //   platform={SocialMediaPlatform.GITHUB}
+    //   url="https://github.com/aws-amplify/"
+    //   iconAriaLabel="Github Repo for Amplify Learn"
+    //   showBorder={false}
+    //   iconWidth={iconSize}
+    //   iconHeight={iconSize}
+    // />,
+    // <SocialMediaButton
+    //   key={2}
+    //   platform={SocialMediaPlatform.TWITTER}
+    //   url="https://twitter.com/AWSAmplify"
+    //   iconAriaLabel="AWS Amplify Twitter account"
+    //   showBorder={false}
+    //   iconWidth={iconSize}
+    //   iconHeight={iconSize}
+    // />,
+    // <SocialMediaButton
+    //   key={3}
+    //   platform={SocialMediaPlatform.YOUTUBE}
+    //   url="https://www.youtube.com/c/amazonwebservices"
+    //   iconAriaLabel="AWS Amplify Youtube channel"
+    //   showBorder={false}
+    //   iconWidth={iconSize}
+    //   iconHeight={iconSize}
+    // />,
+    // <SocialMediaButton
+    //   key={4}
+    //   platform={SocialMediaPlatform.DISCORD}
+    //   url="https://discord.gg/amplify"
+    //   iconAriaLabel="AWS Amplify Discord"
+    //   showBorder={false}
+    //   iconWidth={iconSize}
+    //   iconHeight={iconSize}
+    // />,
+  // ];
 
   const githubIssueUrl = createGithubIssueLink();
 
@@ -86,20 +86,20 @@ export function LearnFooter({ isMobile }: { isMobile: boolean }) {
   );
 
   if (!isMobile) {
-    learnFooter = (
-      <LearnFooterCustom
-        socialMediaButtons={socialMediaButtons}
-        submitGithubIssueButton={submitGithubIssueLink}
-      />
-    );
+    // learnFooter = (
+    //   <LearnFooterCustom
+    //     socialMediaButtons={socialMediaButtons}
+    //     submitGithubIssueButton={submitGithubIssueLink}
+    //   />
+    // );
   } else {
-    learnFooter = (
-      <LearnFooterMobileCustom
-        socialMediaButtons={socialMediaButtons}
-        submitGithubIssueButton={submitGithubIssueLink}
-        width="100%"
-      />
-    );
+    // learnFooter = (
+    //   <LearnFooterMobileCustom
+    //     socialMediaButtons={socialMediaButtons}
+    //     submitGithubIssueButton={submitGithubIssueLink}
+    //     width="100%"
+    //   />
+    // );
   }
 
   return <footer>{learnFooter}</footer>;
